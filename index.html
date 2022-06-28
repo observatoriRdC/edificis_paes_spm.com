@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Característiques dels edificis localitzats als polígons industrials de Santa Perpètua de Mogoda</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/PoligonsIndustrials_0.js"></script>
+        <script src="data/Nombredeplantesdelsedificis_1.js"></script>
+        <script src="data/Superfciedelesedificacions_2.js"></script>
+        <script src="data/sprincipaldelsedificis_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+var BaseMapCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 28}).addTo(map);        
+var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        function pop_PoligonsIndustrials_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NomPolInd</th>\
+                        <td>' + (feature.properties['NomPolInd'] !== null ? autolinker.link(feature.properties['NomPolInd'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Hectarees</th>\
+                        <td>' + (feature.properties['Hectarees'] !== null ? autolinker.link(feature.properties['Hectarees'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KM2</th>\
+                        <td>' + (feature.properties['KM2'] !== null ? autolinker.link(feature.properties['KM2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PoligonsIndustrials_0_0() {
+            return {
+                pane: 'pane_PoligonsIndustrials_0',
+                opacity: 1,
+                color: 'rgba(206,206,206,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(206,206,206,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_PoligonsIndustrials_0');
+        map.getPane('pane_PoligonsIndustrials_0').style.zIndex = 400;
+        map.getPane('pane_PoligonsIndustrials_0').style['mix-blend-mode'] = 'normal';
+        var layer_PoligonsIndustrials_0 = new L.geoJson(json_PoligonsIndustrials_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PoligonsIndustrials_0',
+            layerName: 'layer_PoligonsIndustrials_0',
+            pane: 'pane_PoligonsIndustrials_0',
+            onEachFeature: pop_PoligonsIndustrials_0,
+            style: style_PoligonsIndustrials_0_0,
+        });
+        bounds_group.addLayer(layer_PoligonsIndustrials_0);
+        map.addLayer(layer_PoligonsIndustrials_0);
+        function pop_Nombredeplantesdelsedificis_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">REFCADASTR</th>\
+                        <td>' + (feature.properties['REFCADASTR'] !== null ? autolinker.link(feature.properties['REFCADASTR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">US</th>\
+                        <td>' + (feature.properties['US'] !== null ? autolinker.link(feature.properties['US'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTAT</th>\
+                        <td>' + (feature.properties['ESTAT'] !== null ? autolinker.link(feature.properties['ESTAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">INFOCADAST</th>\
+                        <td>' + (feature.properties['INFOCADAST'] !== null ? autolinker.link(feature.properties['INFOCADAST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FOTOGRAFIA</th>\
+                        <td>' + (feature.properties['FOTOGRAFIA'] !== null ? autolinker.link(feature.properties['FOTOGRAFIA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">N_PISOS</th>\
+                        <td>' + (feature.properties['N_PISOS'] !== null ? autolinker.link(feature.properties['N_PISOS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Nombredeplantesdelsedificis_1_0(feature) {
+            if (feature.properties['N_PISOS'] >= 1.000000 && feature.properties['N_PISOS'] <= 1.000000 ) {
+                return {
+                pane: 'pane_Nombredeplantesdelsedificis_1',
+                opacity: 1,
+                color: 'rgba(255,244,179,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,244,179,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_PISOS'] >= 2.000000 && feature.properties['N_PISOS'] <= 3.000000 ) {
+                return {
+                pane: 'pane_Nombredeplantesdelsedificis_1',
+                opacity: 1,
+                color: 'rgba(255,235,11,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,235,11,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_PISOS'] >= 4.000000 && feature.properties['N_PISOS'] <= 5.000000 ) {
+                return {
+                pane: 'pane_Nombredeplantesdelsedificis_1',
+                opacity: 1,
+                color: 'rgba(58,245,245,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(58,245,245,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_PISOS'] >= 6.000000 && feature.properties['N_PISOS'] <= 8.000000 ) {
+                return {
+                pane: 'pane_Nombredeplantesdelsedificis_1',
+                opacity: 1,
+                color: 'rgba(214,146,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,146,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_PISOS'] >= 9.000000 && feature.properties['N_PISOS'] <= 14.000000 ) {
+                return {
+                pane: 'pane_Nombredeplantesdelsedificis_1',
+                opacity: 1,
+                color: 'rgba(238,15,15,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(238,15,15,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Nombredeplantesdelsedificis_1');
+        map.getPane('pane_Nombredeplantesdelsedificis_1').style.zIndex = 401;
+        map.getPane('pane_Nombredeplantesdelsedificis_1').style['mix-blend-mode'] = 'normal';
+        var layer_Nombredeplantesdelsedificis_1 = new L.geoJson(json_Nombredeplantesdelsedificis_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Nombredeplantesdelsedificis_1',
+            layerName: 'layer_Nombredeplantesdelsedificis_1',
+            pane: 'pane_Nombredeplantesdelsedificis_1',
+            onEachFeature: pop_Nombredeplantesdelsedificis_1,
+            style: style_Nombredeplantesdelsedificis_1_0,
+        });
+        bounds_group.addLayer(layer_Nombredeplantesdelsedificis_1);
+        map.addLayer(layer_Nombredeplantesdelsedificis_1);
+        function pop_Superfciedelesedificacions_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">REFCADASTR</th>\
+                        <td>' + (feature.properties['REFCADASTR'] !== null ? autolinker.link(feature.properties['REFCADASTR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">US</th>\
+                        <td>' + (feature.properties['US'] !== null ? autolinker.link(feature.properties['US'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTAT</th>\
+                        <td>' + (feature.properties['ESTAT'] !== null ? autolinker.link(feature.properties['ESTAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">INFOCADAST</th>\
+                        <td>' + (feature.properties['INFOCADAST'] !== null ? autolinker.link(feature.properties['INFOCADAST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FOTOGRAFIA</th>\
+                        <td>' + (feature.properties['FOTOGRAFIA'] !== null ? autolinker.link(feature.properties['FOTOGRAFIA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUP_PARCEL</th>\
+                        <td>' + (feature.properties['SUP_PARCEL'] !== null ? autolinker.link(feature.properties['SUP_PARCEL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUP_EDIFIC</th>\
+                        <td>' + (feature.properties['SUP_EDIFIC'] !== null ? autolinker.link(feature.properties['SUP_EDIFIC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Superfciedelesedificacions_2_0(feature) {
+            if (feature.properties['SUP_EDIFIC'] >= 0.000000 && feature.properties['SUP_EDIFIC'] <= 1500.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 1501.000000 && feature.properties['SUP_EDIFIC'] <= 3000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,213,213,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,213,213,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 3001.000000 && feature.properties['SUP_EDIFIC'] <= 6000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,170,170,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,170,170,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 6001.000000 && feature.properties['SUP_EDIFIC'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,128,128,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 10001.000000 && feature.properties['SUP_EDIFIC'] <= 15000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,85,85,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,85,85,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 15001.000000 && feature.properties['SUP_EDIFIC'] <= 30000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,42,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,42,42,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['SUP_EDIFIC'] >= 30001.000000 && feature.properties['SUP_EDIFIC'] <= 70000.000000 ) {
+                return {
+                pane: 'pane_Superfciedelesedificacions_2',
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Superfciedelesedificacions_2');
+        map.getPane('pane_Superfciedelesedificacions_2').style.zIndex = 402;
+        map.getPane('pane_Superfciedelesedificacions_2').style['mix-blend-mode'] = 'normal';
+        var layer_Superfciedelesedificacions_2 = new L.geoJson(json_Superfciedelesedificacions_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Superfciedelesedificacions_2',
+            layerName: 'layer_Superfciedelesedificacions_2',
+            pane: 'pane_Superfciedelesedificacions_2',
+            onEachFeature: pop_Superfciedelesedificacions_2,
+            style: style_Superfciedelesedificacions_2_0,
+        });
+        bounds_group.addLayer(layer_Superfciedelesedificacions_2);
+        map.addLayer(layer_Superfciedelesedificacions_2);
+        function pop_sprincipaldelsedificis_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">REFCADASTR</th>\
+                        <td>' + (feature.properties['REFCADASTR'] !== null ? autolinker.link(feature.properties['REFCADASTR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">US</th>\
+                        <td>' + (feature.properties['US'] !== null ? autolinker.link(feature.properties['US'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTAT</th>\
+                        <td>' + (feature.properties['ESTAT'] !== null ? autolinker.link(feature.properties['ESTAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">INFOCADAST</th>\
+                        <td>' + (feature.properties['INFOCADAST'] !== null ? autolinker.link(feature.properties['INFOCADAST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FOTOGRAFIA</th>\
+                        <td>' + (feature.properties['FOTOGRAFIA'] !== null ? autolinker.link(feature.properties['FOTOGRAFIA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUP_PARCEL</th>\
+                        <td>' + (feature.properties['SUP_PARCEL'] !== null ? autolinker.link(feature.properties['SUP_PARCEL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUP_EDIFIC</th>\
+                        <td>' + (feature.properties['SUP_EDIFIC'] !== null ? autolinker.link(feature.properties['SUP_EDIFIC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_sprincipaldelsedificis_3_0(feature) {
+            switch(String(feature.properties['US'])) {
+                case 'Industrial':
+                    return {
+                pane: 'pane_sprincipaldelsedificis_3',
+                opacity: 1,
+                color: 'rgba(218,123,206,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,123,206,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Oficina':
+                    return {
+                pane: 'pane_sprincipaldelsedificis_3',
+                opacity: 1,
+                color: 'rgba(79,163,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(79,163,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Residencial':
+                    return {
+                pane: 'pane_sprincipaldelsedificis_3',
+                opacity: 1,
+                color: 'rgba(224,36,36,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,36,36,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Venda al detall':
+                    return {
+                pane: 'pane_sprincipaldelsedificis_3',
+                opacity: 1,
+                color: 'rgba(251,126,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,126,0,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_sprincipaldelsedificis_3');
+        map.getPane('pane_sprincipaldelsedificis_3').style.zIndex = 403;
+        map.getPane('pane_sprincipaldelsedificis_3').style['mix-blend-mode'] = 'normal';
+        var layer_sprincipaldelsedificis_3 = new L.geoJson(json_sprincipaldelsedificis_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_sprincipaldelsedificis_3',
+            layerName: 'layer_sprincipaldelsedificis_3',
+            pane: 'pane_sprincipaldelsedificis_3',
+            onEachFeature: pop_sprincipaldelsedificis_3,
+            style: style_sprincipaldelsedificis_3_0,
+        });
+        bounds_group.addLayer(layer_sprincipaldelsedificis_3);
+        map.addLayer(layer_sprincipaldelsedificis_3);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Característiques dels edificis localitzats als polígons industrials de Santa Perpètua de Mogoda</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomleft'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+                    this._div.setAttribute("onmouseenter", "abstract.show()");
+                    this._div.setAttribute("onmouseleave", "abstract.hide()");
+                    this.hide();
+                    return this._div;
+                };
+                abstract.hide = function () {
+                    this._div.classList.remove("abstractUncollapsed");
+                    this._div.classList.add("abstract");
+                    this._div.innerHTML = 'i'
+                }
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Aquest mapa ha estat elaborat per l\'Observatori de l\'Eix de la Riera de Caldes, a partir de la base cartogràfica de la Direccion General del Catastro.<br /><br />Ús principal dels edificis: ús predominant dels edificis. La classificació s\'obté calculant l\'ús que ocupa major superfície del conjunt d\'immobles situats a l\'interior de la parcel·la cadastral on es localitza l\'edifici. <br /><br />Superfície dels edificis: La superfície (en m2) s\'ofereix pel conjunt d\'immobles que forma part de l\'edifici (exemple: l\'empresa Alstom consta de 27 immobles que conjuntament abasten una superfície de 67.000 m2).<br />* També s\'ofereix, a través del caixetí, la superfície total de la parcel·la.<br /><br />Nombre de plantes dels edificis: Tenint en compte que un edifici pot tenir elements arquitectònics de diferents alçades, el nombre de plantes queda reflectit en una capa que representa les diferents alçades presents en cada immoble. La base cartogràfica de parts d\'edificis és l\'única que, en origen, permet treballar amb aquest paràmetre.';
+            };
+            abstract.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Ús principal dels edificis<br /><table><tr><td style="text-align: center;"><img src="legend/sprincipaldelsedificis_3_Industrial0.png" /></td><td>Industrial</td></tr><tr><td style="text-align: center;"><img src="legend/sprincipaldelsedificis_3_Oficina1.png" /></td><td>Oficina</td></tr><tr><td style="text-align: center;"><img src="legend/sprincipaldelsedificis_3_Residencial2.png" /></td><td>Residencial</td></tr><tr><td style="text-align: center;"><img src="legend/sprincipaldelsedificis_3_Vendaaldetall3.png" /></td><td>Venda al detall</td></tr></table>': layer_sprincipaldelsedificis_3,'Superfície de les edificacions<br /><table><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_01500m20.png" /></td><td>0 - 1.500 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_15003000m21.png" /></td><td>1.500 - 3.000 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_30006000m22.png" /></td><td>3.000 - 6.000 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_600010000m23.png" /></td><td>6.000 - 10.000 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_1000015000m24.png" /></td><td>10.000 - 15.000 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_1500030000m25.png" /></td><td>15.000 - 30.000 m2</td></tr><tr><td style="text-align: center;"><img src="legend/Superfciedelesedificacions_2_3000070000m26.png" /></td><td>30.000 - 70.000 m2</td></tr></table>': layer_Superfciedelesedificacions_2,'Nombre de plantes dels edificis<br /><table><tr><td style="text-align: center;"><img src="legend/Nombredeplantesdelsedificis_1_1planta0.png" /></td><td>1 planta</td></tr><tr><td style="text-align: center;"><img src="legend/Nombredeplantesdelsedificis_1_23plantes1.png" /></td><td>2 - 3 plantes</td></tr><tr><td style="text-align: center;"><img src="legend/Nombredeplantesdelsedificis_1_45plantes2.png" /></td><td>4 - 5 plantes</td></tr><tr><td style="text-align: center;"><img src="legend/Nombredeplantesdelsedificis_1_68plantes3.png" /></td><td>6 - 8 plantes </td></tr><tr><td style="text-align: center;"><img src="legend/Nombredeplantesdelsedificis_1_914plantes4.png" /></td><td>9 - 14 plantes</td></tr></table>': layer_Nombredeplantesdelsedificis_1,'<img src="legend/PoligonsIndustrials_0.png" /> Poligons Industrials': layer_PoligonsIndustrials_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
